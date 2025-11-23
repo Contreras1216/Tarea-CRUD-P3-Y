@@ -67,4 +67,3 @@ async def put_user(user: User):
             return {"Usuario actualizado con exito ✅": user}
     
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail = {"error ❌": "User not found"}) 
-
