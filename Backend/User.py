@@ -57,3 +57,13 @@ async def post_user(user: User):
     return {"Nuevo usuario agregado con exito ✅": user} 
 
 
+# ======================= # Put para actualizar un usuario por su id # ======================= #
+@app.put("/user_put/")
+async def put_user(user: User):
+    
+    for index, existing_user in enumerate(databese_users):
+        if existing_user.id == user.id:
+            databese_users[index] = user
+            return {"Usuario actualizado con exito ✅": user}
+    
+    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail = {"error ❌": "User not found"}) 
