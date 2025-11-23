@@ -38,3 +38,22 @@ async def get_user(user_id: int):
             return {"Usuario encontrado con exito ✅": user}
     return {"Error ❌": "User not found"}
 
+
+        # ======================= # Post para agregar un nuevo usuario # ======================= #
+@app.post("/user_post/", status_code = status.HTTP_201_CREATED)
+async def post_user(user: User):
+    
+    for existing_user in databese_users:
+        if existing_user.id == user.id:
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail = {"error ❌": "User with this ID already exists"})
+        
+        if user.age <= 0:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail = {"error ❌": "Age cannot be less than or equal to zero"})
+        
+        if not user.name or not user.surname or not user.educacion:
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail = {"error ❌": "Name, surname and education cannot be empty"})
+        
+    databese_users.append(user)
+    return {"Nuevo usuario agregado con exito ✅": user} 
+
+
